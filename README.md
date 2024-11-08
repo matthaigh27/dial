@@ -17,7 +17,7 @@ A modern profiler for Rails applications.
 Install the gem and add it to your application's Gemfile by executing:
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle add dial
 ```
 
 ## Development

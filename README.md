@@ -14,11 +14,13 @@ A modern profiler for Rails applications.
 
 ## Installation
 
-Install the gem and add it to your application's Gemfile by executing:
+Install the gem and add it to your Rails application's Gemfile by executing:
 
 ```bash
 bundle add dial
 ```
+
+and everything should just work.
 
 ## Development
 

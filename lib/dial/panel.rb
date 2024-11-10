@@ -1,19 +1,23 @@
 # frozen_string_literal: true
 
+require "cgi"
+
 require_relative "constants"
 
 module Dial
   class Panel
     class << self
-      include Constants
-
-      def html env, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing
+      def html env, profile_out_filename, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing
         <<~HTML
           <style>#{style}</style>
 
           <div id="dial">
             <div id="dial-preview">
-              <span>#{formatted_rails_route_info(env)} | #{formatted_request_timing(env)}</span>
+              <span>
+                #{formatted_rails_route_info(env)} |
+                #{formatted_request_timing(env)} |
+                #{formatted_profile_ouput(env, profile_out_filename)}
+              </span>
               <span>#{formatted_rails_version}</span>
               <span>#{formatted_rack_version}</span>
               <span>#{formatted_ruby_version}</span>
@@ -135,7 +139,18 @@ module Dial
       end
 
       def formatted_request_timing env
-        "<b>Request timing:</b> #{env[DIAL_REQUEST_TIMING]}ms"
+        "<b>Request timing:</b> #{env[REQUEST_TIMING_HEADER]}ms"
+      end
+
+      def formatted_profile_ouput env, profile_out_filename
+        uuid = profile_out_filename.sub ".json", ""
+        path = "dial/profile?uuid=#{uuid}"
+        host = env[::Rack::HTTP_HOST]
+        base_url = ::Rails.application.routes.url_helpers.dial_url host: host
+        profile_out_url = CGI.escape base_url + path
+        url = "https://vernier.prof/from-url/#{profile_out_url}"
+
+        "<a href='#{url}' target='_blank'>View profile</a>"
       end
 
       def formatted_rails_version

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Dial
-  module Constants
-    DIAL_REQUEST_TIMING = "dial_request_timing"
-  end
+  REQUEST_TIMING_HEADER = "dial_request_timing"
+  PROFILE_OUT_RELATIVE_DIRNAME = "tmp/dial/profile/"
 end

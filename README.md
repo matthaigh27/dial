@@ -1,5 +1,8 @@
 # Dial
 
+![Version](https://img.shields.io/gem/v/dial)
+![Build](https://img.shields.io/github/actions/workflow/status/joshuay03/dial/.github/workflows/main.yml?branch=main)
+
 WIP
 
 A modern profiler for Rails applications.

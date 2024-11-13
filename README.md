@@ -7,16 +7,7 @@ WIP
 
 A modern profiler for Rails applications.
 
-<details>
-<summary>POC</summary>
-
-![Snapshot 1](https://github.com/user-attachments/assets/904daaf5-3f18-4c94-a7e4-9418539a19f3)
-
-![Snapshot 2](https://github.com/user-attachments/assets/eb6ed9f5-b258-42df-8901-222c7d969fdd)
-
 https://github.com/user-attachments/assets/bae59681-ebeb-42b3-9489-9692c072c3dc
-
-</details>
 
 ## Installation
 

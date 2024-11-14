@@ -5,8 +5,8 @@ module Dial
     private
 
     def server_timing headers
-      timing = if (ActionDispatch.const_defined? :Constants)  && (ActionDispatch::Constants.const_defined? :SERVER_TIMING)
-        headers[ActionDispatch::Constants::SERVER_TIMING]
+      timing = if ::ActionDispatch.const_defined? "Constants::SERVER_TIMING"
+        headers[::ActionDispatch::Constants::SERVER_TIMING]
       else
         headers["Server-Timing"]
       end

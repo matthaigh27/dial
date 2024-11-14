@@ -2,10 +2,10 @@
 
 require "vernier"
 
-require_relative "ruby_stat"
-require_relative "rails_stat"
 require_relative "constants"
-require_relative "panel"
+require_relative "middleware/panel"
+require_relative "middleware/ruby_stat"
+require_relative "middleware/rails_stat"
 
 module Dial
   class Middleware
@@ -17,7 +17,7 @@ module Dial
     end
 
     def call env
-      start_time = ::Process.clock_gettime ::Process::CLOCK_MONOTONIC
+      start_time = Process.clock_gettime Process::CLOCK_MONOTONIC
 
       ruby_vm_stat_before = RubyVM.stat
       gc_stat_before = GC.stat
@@ -38,19 +38,19 @@ module Dial
         return [status, headers, rack_body]
       end
 
-      finish_time = ::Process.clock_gettime ::Process::CLOCK_MONOTONIC
+      finish_time = Process.clock_gettime Process::CLOCK_MONOTONIC
       env[REQUEST_TIMING_HEADER] = ((finish_time - start_time) * 1_000).round 2
 
-      ruby_vm_stat_diff = ruby_vm_stat_diff ruby_vm_stat_before, RubyVM.stat
-      gc_stat_diff = gc_stat_diff gc_stat_before, GC.stat
-      gc_stat_heap_diff = gc_stat_heap_diff gc_stat_heap_before, GC.stat_heap
+      ruby_vm_stat = ruby_vm_stat_diff ruby_vm_stat_before, RubyVM.stat
+      gc_stat = gc_stat_diff gc_stat_before, GC.stat
+      gc_stat_heap = gc_stat_heap_diff gc_stat_heap_before, GC.stat_heap
       server_timing = server_timing headers
 
       body = String.new.tap do |str|
         rack_body.each { |chunk| str << chunk }
-        rack_body.close if body.respond_to? :close
+        rack_body.close if rack_body.respond_to? :close
       end.sub "</body>", <<~HTML
-          #{Panel.html env, profile_out_filename, ruby_vm_stat_diff, gc_stat_diff, gc_stat_heap_diff, server_timing}
+          #{Panel.html env, profile_out_filename, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing}
         </body>
       HTML
 

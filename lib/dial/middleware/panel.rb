@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require "cgi"
-
-require_relative "constants"
+require "uri"
 
 module Dial
   class Panel
@@ -14,9 +12,9 @@ module Dial
           <div id="dial">
             <div id="dial-preview">
               <span>
-                #{formatted_rails_route_info(env)} |
-                #{formatted_request_timing(env)} |
-                #{formatted_profile_ouput(env, profile_out_filename)}
+                #{formatted_rails_route_info env} |
+                #{formatted_request_timing env} |
+                #{formatted_profile_output env, profile_out_filename}
               </span>
               <span>#{formatted_rails_version}</span>
               <span>#{formatted_rack_version}</span>
@@ -27,30 +25,30 @@ module Dial
               <hr>
 
               <details>
+                <summary>Server timing</summary>
+                <div class="section">
+                  #{formatted_server_timing server_timing}
+                </div>
+              </details>
+
+              <details>
                 <summary>RubyVM stat</summary>
                 <div class="section">
-                  #{formatted_ruby_vm_stat(ruby_vm_stat)}
+                  #{formatted_ruby_vm_stat ruby_vm_stat}
                 </div>
               </details>
 
               <details>
                 <summary>GC stat</summary>
                 <div class="section">
-                  #{formatted_gc_stat(gc_stat)}
+                  #{formatted_gc_stat gc_stat}
                 </div>
               </details>
 
               <details>
                 <summary>GC stat heap</summary>
                 <div class="section">
-                  #{formatted_gc_stat_heap(gc_stat_heap)}
-                </div>
-              </details>
-
-              <details>
-                <summary>Server timing</summary>
-                <div class="section">
-                  #{formatted_server_timing(server_timing)}
+                  #{formatted_gc_stat_heap gc_stat_heap}
                 </div>
               </details>
             </div>
@@ -77,42 +75,41 @@ module Dial
             padding: 0.5rem;
             font-size: 0.85rem;
             color: black;
-            cursor: pointer;
-          }
 
-          #dial-preview {
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-          }
+            #dial-preview {
+              display: flex;
+              flex-direction: column;
+              cursor: pointer;
+            }
 
-          #dial-details {
-            display: none;
-          }
+            #dial-details {
+              display: none;
+            }
 
-          .section {
-            display: flex;
-            flex-direction: column;
-            margin-top: 0.5rem;
-          }
+            .section {
+              display: flex;
+              flex-direction: column;
+              margin: 0.25rem 0 0 0;
+            }
 
-          span {
-            text-align: left;
-          }
+            span {
+              text-align: left;
+            }
 
-          hr {
-            width: -moz-available;
-            margin-top: 0.5rem;
-          }
+            hr {
+              width: -moz-available;
+              margin: 0.65rem 0 0 0;
+            }
 
-          details {
-            margin-top: 0.5rem;
-            text-align: left;
-          }
+            details {
+              margin: 0.5rem 0 0 0;
+              text-align: left;
+            }
 
-          summary {
-            margin-bottom: 0.25rem;
-            cursor: pointer;
+            summary {
+              margin: 0.25rem 0 0 0;
+              cursor: pointer;
+            }
           }
         CSS
       end
@@ -142,15 +139,13 @@ module Dial
         "<b>Request timing:</b> #{env[REQUEST_TIMING_HEADER]}ms"
       end
 
-      def formatted_profile_ouput env, profile_out_filename
-        uuid = profile_out_filename.sub ".json", ""
-        path = "dial/profile?uuid=#{uuid}"
+      def formatted_profile_output env, profile_out_filename
+        uuid = profile_out_filename.delete_suffix ".json"
         host = env[::Rack::HTTP_HOST]
         base_url = ::Rails.application.routes.url_helpers.dial_url host: host
-        profile_out_url = CGI.escape base_url + path
-        url = "https://vernier.prof/from-url/#{profile_out_url}"
+        profile_out_url = URI.encode_www_form_component base_url + "dial/profile?uuid=#{uuid}"
 
-        "<a href='#{url}' target='_blank'>View profile</a>"
+        "<a href='https://vernier.prof/from-url/#{profile_out_url}' target='_blank'>View profile</a>"
       end
 
       def formatted_rails_version
@@ -162,7 +157,18 @@ module Dial
       end
 
       def formatted_ruby_version
-        "<b>Ruby version:</b> #{RUBY_DESCRIPTION}"
+        "<b>Ruby version:</b> #{::RUBY_DESCRIPTION}"
+      end
+
+      def formatted_server_timing server_timing
+        if server_timing.any?
+          server_timing
+            # TODO: Nested sorting
+            .sort_by { |_, timing| -timing }
+            .map { |event, timing| "<span><b>#{event}:</b> #{timing}</span>" }.join
+        else
+          "NA"
+        end
       end
 
       def formatted_ruby_vm_stat ruby_vm_stat
@@ -184,17 +190,6 @@ module Dial
             </div>
           HTML
         end.join
-      end
-
-      def formatted_server_timing server_timing
-        if server_timing.any?
-          server_timing
-            # TODO: Nested sorting
-            .sort_by { |_, timing| -timing }
-            .map { |event, timing| "<span><b>#{event}:</b> #{timing}</span>" }.join
-        else
-          "NA"
-        end
       end
     end
   end

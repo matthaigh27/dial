@@ -29,7 +29,7 @@ module Dial
       profile_out_pathname = "#{profile_out_dirname}#{profile_out_filename}"
 
       status, headers, rack_body = nil
-      ::Vernier.profile out: profile_out_pathname do
+      ::Vernier.profile out: profile_out_pathname, interval: 500, allocation_interval: 1000 do
         status, headers, rack_body = @app.call env
       end
 

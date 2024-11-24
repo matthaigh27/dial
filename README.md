@@ -11,13 +11,19 @@ https://github.com/user-attachments/assets/bae59681-ebeb-42b3-9489-9692c072c3dc
 
 ## Installation
 
-Install the gem and add it to your Rails application's Gemfile by executing:
+1. Install the gem and add it to your Rails application's Gemfile by executing:
 
 ```bash
 bundle add dial
 ```
 
-and everything should just work.
+2. Mount the engine in your `config/routes.rb` file:
+
+
+```ruby
+# this will mount the engine at /dial
+mount Dial::Engine, at: "/"
+```
 
 ## Development
 

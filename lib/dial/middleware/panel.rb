@@ -140,10 +140,10 @@ module Dial
       end
 
       def formatted_profile_output env, profile_out_filename
+        url_base = ::Rails.application.routes.url_helpers.dial_url host: env[::Rack::HTTP_HOST]
+        prefix = "/" unless url_base.end_with? "/"
         uuid = profile_out_filename.delete_suffix ".json"
-        host = env[::Rack::HTTP_HOST]
-        base_url = ::Rails.application.routes.url_helpers.dial_url host: host
-        profile_out_url = URI.encode_www_form_component base_url + "dial/profile?uuid=#{uuid}"
+        profile_out_url = URI.encode_www_form_component url_base + "#{prefix}dial/profile?uuid=#{uuid}"
 
         "<a href='https://vernier.prof/from-url/#{profile_out_url}' target='_blank'>View profile</a>"
       end

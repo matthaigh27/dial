@@ -26,7 +26,7 @@ module Dial
 
         prosopite_log_pathname = ::Rails.root.join PROSOPITE_LOG_RELATIVE_PATHNAME
         FileUtils.mkdir_p File.dirname prosopite_log_pathname
-        File.open(prosopite_log_pathname, "w") {}
+        FileUtils.touch prosopite_log_pathname
         ::Prosopite.custom_logger = ProsopiteLogger.new prosopite_log_pathname
 
         ::Prosopite.ignore_queries = PROSOPITE_IGNORE_QUERIES

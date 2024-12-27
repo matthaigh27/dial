@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Use vernier memory usage and rails hooks by default
 - Add support for N+1 detection with prosopite
 
 ## [0.1.3] - 2024-11-14

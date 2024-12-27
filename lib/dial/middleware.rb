@@ -27,7 +27,7 @@ module Dial
       status, headers, rack_body = nil
       ruby_vm_stat, gc_stat, gc_stat_heap = nil
       ::Prosopite.scan do
-        ::Vernier.profile out: profile_out_pathname, interval: 500, allocation_interval: 1000 do
+        ::Vernier.profile out: profile_out_pathname, interval: 500, allocation_interval: 1000, hooks: [:memory_usage, :rails] do
           ruby_vm_stat, gc_stat, gc_stat_heap = with_diffed_ruby_stats do
             status, headers, rack_body = @app.call env
           end

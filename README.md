@@ -7,7 +7,8 @@ WIP
 
 A modern profiler for Rails applications.
 
-https://github.com/user-attachments/assets/bae59681-ebeb-42b3-9489-9692c072c3dc
+Check out the demo:
+[![Demo](https://img.youtube.com/vi/LPXtfJ0c284/maxresdefault.jpg)](https://youtu.be/LPXtfJ0c284)
 
 ## Installation
 

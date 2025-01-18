@@ -25,16 +25,16 @@ module Dial
               <hr>
 
               <details>
-                <summary>Server timing</summary>
-                <div class="section">
-                  #{formatted_server_timing server_timing}
+                <summary>N+1s</summary>
+                <div class="section query-logs">
+                  #{formatted_query_logs query_logs}
                 </div>
               </details>
 
               <details>
-                <summary>N+1s</summary>
-                <div class="section query-logs">
-                  #{formatted_query_logs query_logs}
+                <summary>Server timing</summary>
+                <div class="section">
+                  #{formatted_server_timing server_timing}
                 </div>
               </details>
 

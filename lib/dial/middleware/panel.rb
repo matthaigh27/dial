@@ -200,17 +200,21 @@ module Dial
       end
 
       def formatted_query_logs query_logs
-        query_logs.map do |(queries, stack_lines)|
-          <<~HTML
-            <details>
-              <summary>#{queries.shift}</summary>
-              <div class="section query-logs">
-                #{queries.map { |query| "<span>#{query}</span>" }.join}
-                #{stack_lines.map { |stack_line| "<span>#{stack_line}</span>" }.join}
-              </div>
-            </details>
-          HTML
-        end.join
+        if query_logs.any?
+          query_logs.map do |(queries, stack_lines)|
+            <<~HTML
+              <details>
+                <summary>#{queries.shift}</summary>
+                <div class="section query-logs">
+                  #{queries.map { |query| "<span>#{query}</span>" }.join}
+                  #{stack_lines.map { |stack_line| "<span>#{stack_line}</span>" }.join}
+                </div>
+              </details>
+            HTML
+          end.join
+        else
+          "NA"
+        end
       end
 
       def formatted_ruby_vm_stat ruby_vm_stat

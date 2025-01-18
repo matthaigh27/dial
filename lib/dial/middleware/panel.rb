@@ -178,7 +178,6 @@ module Dial
       def formatted_server_timing server_timing
         if server_timing.any?
           server_timing
-            # TODO: Nested sorting
             .sort_by { |_, timing| -timing }
             .map { |event, timing| "<span><b>#{event}:</b> #{timing}</span>" }.join
         else

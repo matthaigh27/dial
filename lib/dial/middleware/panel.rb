@@ -70,6 +70,7 @@ module Dial
       def style
         <<~CSS
           #dial {
+            max-width: 50%;
             z-index: 9999;
             position: fixed;
             bottom: 0;
@@ -133,9 +134,21 @@ module Dial
         <<~JS
           const dialPreview = document.getElementById("dial-preview");
           const dialDetails = document.getElementById("dial-details");
+
           dialPreview.addEventListener("click", () => {
             const collapsed = ["", "none"].includes(dialDetails.style.display);
             dialDetails.style.display = collapsed ? "block" : "none";
+          });
+
+          document.addEventListener("click", (event) => {
+            if (!dialPreview.contains(event.target) && !dialDetails.contains(event.target)) {
+              dialDetails.style.display = "none";
+
+              const detailsElements = dialDetails.querySelectorAll("details");
+              detailsElements.forEach(detail => {
+                detail.removeAttribute("open");
+              });
+            }
           });
         JS
       end

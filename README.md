@@ -29,7 +29,7 @@ bundle install
 
 ```ruby
 # this will mount the engine at /dial
-mount Dial::Engine, at: "/" if Object.const_defined?("Dial::Engine")
+mount Dial::Engine, at: "/" if Object.const_defined? "Dial::Engine"
 ```
 
 ## Development

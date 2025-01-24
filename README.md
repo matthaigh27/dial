@@ -12,18 +12,24 @@ Check out the demo:
 
 ## Installation
 
-1. Install the gem and add it to your Rails application's Gemfile by executing:
+1. Add the gem to your Rails application's Gemfile (adjust the `require` option to match your server of choice):
 
-```bash
-bundle add dial
+```ruby
+# require in just the server process
+gem "dial", require: !!($PROGRAM_NAME =~ /puma/)
 ```
 
-2. Mount the engine in your `config/routes.rb` file:
+2. Install the gem:
 
+```bash
+bundle install
+```
+
+3. Mount the engine in your `config/routes.rb` file:
 
 ```ruby
 # this will mount the engine at /dial
-mount Dial::Engine, at: "/"
+mount Dial::Engine, at: "/" if Object.const_defined?("Dial::Engine")
 ```
 
 ## Development

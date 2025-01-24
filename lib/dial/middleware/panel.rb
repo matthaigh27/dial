@@ -144,11 +144,11 @@ module Dial
 
       def script
         <<~JS
-          const dialPreview = document.getElementById("dial-preview");
-          const dialDetails = document.getElementById("dial-details");
+          var dialPreview = document.getElementById("dial-preview");
+          var dialDetails = document.getElementById("dial-details");
 
           dialPreview.addEventListener("click", () => {
-            const collapsed = ["", "none"].includes(dialDetails.style.display);
+            var collapsed = ["", "none"].includes(dialDetails.style.display);
             dialDetails.style.display = collapsed ? "block" : "none";
           });
 
@@ -156,7 +156,7 @@ module Dial
             if (!dialPreview.contains(event.target) && !dialDetails.contains(event.target)) {
               dialDetails.style.display = "none";
 
-              const detailsElements = dialDetails.querySelectorAll("details");
+              var detailsElements = dialDetails.querySelectorAll("details");
               detailsElements.forEach(detail => {
                 detail.removeAttribute("open");
               });

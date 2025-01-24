@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.1.5] - 2025-01-24
+
 - UI: Fix overflow and add vertical scroll
 
 ## [0.1.4] - 2024-12-27

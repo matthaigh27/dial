@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- UI: Fix overflow and add vertical scroll
+
 ## [0.1.4] - 2024-12-27
 
 - Use vernier memory usage and rails hooks by default

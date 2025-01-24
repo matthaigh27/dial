@@ -21,15 +21,17 @@ module Dial
               <span>#{formatted_ruby_version}</span>
             </div>
 
-            <div id="dial-details">
-              <hr>
+            <hr>
 
+            <div id="dial-details">
               <details>
                 <summary>N+1s</summary>
                 <div class="section query-logs">
                   #{formatted_query_logs query_logs}
                 </div>
               </details>
+
+              <hr>
 
               <details>
                 <summary>Server timing</summary>
@@ -38,6 +40,8 @@ module Dial
                 </div>
               </details>
 
+              <hr>
+
               <details>
                 <summary>RubyVM stat</summary>
                 <div class="section">
@@ -45,12 +49,16 @@ module Dial
                 </div>
               </details>
 
+              <hr>
+
               <details>
                 <summary>GC stat</summary>
                 <div class="section">
                   #{formatted_gc_stat gc_stat}
                 </div>
               </details>
+
+              <hr>
 
               <details>
                 <summary>GC stat heap</summary>
@@ -70,6 +78,7 @@ module Dial
       def style
         <<~CSS
           #dial {
+            max-height: 50%;
             max-width: 50%;
             z-index: 9999;
             position: fixed;
@@ -92,6 +101,7 @@ module Dial
 
             #dial-details {
               display: none;
+              overflow-y: auto;
             }
 
             .section {
@@ -116,6 +126,7 @@ module Dial
             hr {
               width: -moz-available;
               margin: 0.65rem 0 0 0;
+              background-color: black;
             }
 
             details {

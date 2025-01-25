@@ -15,8 +15,10 @@ Check out the demo:
 1. Add the gem to your Rails application's Gemfile (adjust the `require` option to match your server of choice):
 
 ```ruby
-# require in just the server process
-gem "dial", require: !!($PROGRAM_NAME =~ /puma/)
+group :development do
+  # require in just the server process
+  gem "dial", require: !!($PROGRAM_NAME =~ /puma/)
+end
 ```
 
 2. Install the gem:

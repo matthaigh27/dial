@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Increase default vernier allocation interval from 1k to 10k
+
 ## [0.1.6] - 2025-01-25
 
 - Fix redeclaration of JS constants

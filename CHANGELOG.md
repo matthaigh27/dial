@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Require ruby 3.3.0 or later
 - Handle stale file deletion in railtie, extend to log files
 - Make log files unique to each session - simplify installation
 

@@ -25,7 +25,7 @@ module Dial
       status, headers, rack_body = nil
       ruby_vm_stat, gc_stat, gc_stat_heap = nil
       ::Prosopite.scan do
-        ::Vernier.profile out: profile_out_pathname, interval: 500, allocation_interval: 10_000, hooks: [:memory_usage, :rails] do
+        ::Vernier.profile out: profile_out_pathname, interval: VERNIER_INTERVAL, allocation_interval: VERNIER_ALLOCATION_INTERVAL, hooks: [:memory_usage, :rails] do
           ruby_vm_stat, gc_stat, gc_stat_heap = with_diffed_ruby_stats do
             status, headers, rack_body = @app.call env
           end
@@ -109,7 +109,7 @@ module Dial
     end
 
     def profile_out_dir_pathname
-      ::Rails.root.join PROFILE_OUT_RELATIVE_DIRNAME
+      ::Rails.root.join VERNIER_PROFILE_OUT_RELATIVE_DIRNAME
     end
 
     def query_log_dir_pathname

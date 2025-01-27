@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Increase default vernier allocation interval from 10k to 100k
+
 ## [0.1.8] - 2025-01-27
 
 - Require ruby 3.3.0 or later

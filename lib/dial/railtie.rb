@@ -14,7 +14,7 @@ module Dial
 
     initializer "dial.set_up_vernier" do |app|
       app.config.after_initialize do
-        FileUtils.mkdir_p ::Rails.root.join PROFILE_OUT_RELATIVE_DIRNAME
+        FileUtils.mkdir_p ::Rails.root.join VERNIER_PROFILE_OUT_RELATIVE_DIRNAME
       end
     end
 
@@ -50,12 +50,12 @@ module Dial
     def stale_files glob_pattern
       Dir.glob(glob_pattern).select do |file|
         timestamp = Util.uuid_timestamp Util.file_name_uuid File.basename file
-        timestamp < Time.now - PROFILE_OUT_STALE_SECONDS
+        timestamp < Time.now - FILE_STALE_SECONDS
       end
     end
 
     def profile_out_dir_pathname
-      ::Rails.root.join PROFILE_OUT_RELATIVE_DIRNAME
+      ::Rails.root.join VERNIER_PROFILE_OUT_RELATIVE_DIRNAME
     end
 
     def query_log_dir_pathname

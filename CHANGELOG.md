@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+- Handle stale file deletion in railtie, extend to log files
+- Make log files unique to each session - simplify installation
+
 ## [0.1.7] - 2025-01-25
 
 - Increase default vernier allocation interval from 1k to 10k

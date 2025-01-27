@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "securerandom"
-
 require "vernier"
 require "prosopite"
 
@@ -21,8 +19,8 @@ module Dial
     def call env
       start_time = Process.clock_gettime Process::CLOCK_MONOTONIC
 
-      profile_out_filename = "#{SecureRandom.uuid_v7}.json"
-      profile_out_pathname = "#{profile_out_dir_pathname}#{profile_out_filename}"
+      profile_out_filename = "#{Util.uuid}_vernier.json"
+      profile_out_pathname = "#{profile_out_dir_pathname}/#{profile_out_filename}"
 
       status, headers, rack_body = nil
       ruby_vm_stat, gc_stat, gc_stat_heap = nil
@@ -36,12 +34,10 @@ module Dial
       server_timing = server_timing headers
 
       unless headers[::Rack::CONTENT_TYPE]&.include? "text/html"
-        File.delete profile_out_pathname if File.exist? profile_out_pathname
         return [status, headers, rack_body]
       end
 
       query_logs = clear_query_logs!
-      remove_stale_profile_out_files!
 
       finish_time = Process.clock_gettime Process::CLOCK_MONOTONIC
       env[REQUEST_TIMING_HEADER] = ((finish_time - start_time) * 1_000).round 2
@@ -73,26 +69,9 @@ module Dial
       ]
     end
 
-    def remove_stale_profile_out_files!
-      stale_profile_out_files.each do |profile_out_file|
-        File.delete profile_out_file
-      end
-    end
-
-    def stale_profile_out_files
-      Dir.glob("#{profile_out_dir_pathname}/*.json").select do |profile_out_file|
-        timestamp = Util.uuid_v7_timestamp File.basename profile_out_file
-        timestamp < Time.now - PROFILE_OUT_STALE_SECONDS
-      end
-    end
-
-    def profile_out_dir_pathname
-      @_profile_out_dir_pathname ||= ::Rails.root.join PROFILE_OUT_RELATIVE_DIRNAME
-    end
-
     def clear_query_logs!
       [].tap do |query_logs|
-        File.open(query_log_pathname, "r+") do |file|
+        File.open("#{query_log_dir_pathname}/#{PROSOPITE_LOG_FILENAME}", "r+") do |file|
           entry = section = count = nil
           file.each_line do |line|
             entry, section, count = process_query_log_line line, entry, section, count
@@ -129,8 +108,12 @@ module Dial
       end
     end
 
-    def query_log_pathname
-      @_query_log_dir_pathname ||= ::Rails.root.join PROSOPITE_LOG_RELATIVE_PATHNAME
+    def profile_out_dir_pathname
+      ::Rails.root.join PROFILE_OUT_RELATIVE_DIRNAME
+    end
+
+    def query_log_dir_pathname
+      ::Rails.root.join PROSOPITE_LOG_RELATIVE_DIRNAME
     end
   end
 end

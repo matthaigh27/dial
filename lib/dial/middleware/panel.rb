@@ -91,7 +91,6 @@ module Dial
             flex-direction: column;
             padding: 0.5rem;
             font-size: 0.85rem;
-            color: black;
 
             #dial-preview {
               display: flex;
@@ -121,12 +120,17 @@ module Dial
 
             span {
               text-align: left;
+              color: black;
+            }
+
+            a {
+              color: blue;
             }
 
             hr {
               width: -moz-available;
               margin: 0.65rem 0 0 0;
-              background-color: black;
+              border-color: black;
             }
 
             details {
@@ -137,6 +141,7 @@ module Dial
             summary {
               margin: 0.25rem 0 0 0;
               cursor: pointer;
+              color: black;
             }
           }
         CSS

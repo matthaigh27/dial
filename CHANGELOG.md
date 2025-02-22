@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- UI: Use inline color properties to prevent overriding by user styles
+
 ## [0.1.9] - 2025-01-27
 
 - Increase default vernier allocation interval from 10k to 100k

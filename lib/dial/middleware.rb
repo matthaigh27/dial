@@ -17,6 +17,10 @@ module Dial
     end
 
     def call env
+      unless env[HTTP_ACCEPT]&.include? "text/html"
+        return @app.call env
+      end
+
       start_time = Process.clock_gettime Process::CLOCK_MONOTONIC
 
       profile_out_filename = "#{Util.uuid}_vernier.json.gz"
@@ -32,7 +36,7 @@ module Dial
       end
       server_timing = server_timing headers
 
-      unless headers[::Rack::CONTENT_TYPE]&.include? "text/html"
+      unless headers[CONTENT_TYPE]&.include? "text/html"
         return [status, headers, rack_body]
       end
 
@@ -40,7 +44,7 @@ module Dial
       query_logs = clear_query_logs!
 
       finish_time = Process.clock_gettime Process::CLOCK_MONOTONIC
-      env[REQUEST_TIMING_HEADER] = ((finish_time - start_time) * 1_000).round 2
+      env[REQUEST_TIMING] = ((finish_time - start_time) * 1_000).round 2
 
       body = String.new.tap do |str|
         rack_body.each { |chunk| str << chunk }
@@ -50,7 +54,7 @@ module Dial
         </body>
       HTML
 
-      headers[::Rack::CONTENT_LENGTH] = body.bytesize.to_s
+      headers[CONTENT_LENGTH] = body.bytesize.to_s
 
       [status, headers, [body]]
     end

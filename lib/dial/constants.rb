@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
+require "rack"
+
 require_relative "version"
 
 module Dial
   PROGRAM_ID = Process.getsid Process.pid
 
-  REQUEST_TIMING_HEADER = "dial_request_timing"
+  HTTP_ACCEPT = "HTTP_ACCEPT"
+  CONTENT_TYPE = ::Rack::CONTENT_TYPE
+  CONTENT_LENGTH = ::Rack::CONTENT_LENGTH
+  REQUEST_TIMING = "dial_request_timing"
 
   FILE_STALE_SECONDS = 60 * 60
 

@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Perf: Eagerly check content type to avoid profiling incompatible requests
 - Perf: Manually write vernier output files in background thread
 - Use gzipped vernier output files by default
 - UI: Use inline color properties to prevent overriding by user styles

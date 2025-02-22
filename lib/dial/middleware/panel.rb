@@ -181,7 +181,7 @@ module Dial
       end
 
       def formatted_request_timing env
-        "<b>Request timing:</b> #{env[REQUEST_TIMING_HEADER]}ms"
+        "<b>Request timing:</b> #{env[REQUEST_TIMING]}ms"
       end
 
       def formatted_profile_output env, profile_out_filename

@@ -176,7 +176,7 @@ module Dial
         rescue ::ActionController::RoutingError
           {}
         end.then do |info|
-          "<b>Controller:</b> #{info[:controller] || "NA"} | <b>Action:</b> #{info[:action] || "NA"}"
+          "<b>Controller:</b> #{info[:controller] || "N/A"} | <b>Action:</b> #{info[:action] || "N/A"}"
         end
       end
 
@@ -211,7 +211,7 @@ module Dial
             .sort_by { |_, timing| -timing }
             .map { |event, timing| "<span><b>#{event}:</b> #{timing}</span>" }.join
         else
-          "NA"
+          "<span>N/A</span>"
         end
       end
 
@@ -229,7 +229,7 @@ module Dial
             HTML
           end.join
         else
-          "NA"
+          "<span>N/A</span>"
         end
       end
 

@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.2.0] - 2025-02-22
+
 - Perf: Eagerly check content type to avoid profiling incompatible requests
 - Perf: Manually write vernier output files in background thread
 - Use gzipped vernier output files by default

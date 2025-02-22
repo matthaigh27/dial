@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Perf: Manually write vernier output files in background thread
 - Use gzipped vernier output files by default
 - UI: Use inline color properties to prevent overriding by user styles
 

@@ -22,10 +22,9 @@ module Dial
       profile_out_filename = "#{Util.uuid}_vernier.json.gz"
       profile_out_pathname = "#{profile_out_dir_pathname}/#{profile_out_filename}"
 
-      status, headers, rack_body = nil
-      ruby_vm_stat, gc_stat, gc_stat_heap = nil
+      status, headers, rack_body, ruby_vm_stat, gc_stat, gc_stat_heap, vernier_result = nil
       ::Prosopite.scan do
-        ::Vernier.profile out: profile_out_pathname, interval: VERNIER_INTERVAL, allocation_interval: VERNIER_ALLOCATION_INTERVAL, hooks: [:memory_usage, :rails] do
+        vernier_result = ::Vernier.profile interval: VERNIER_INTERVAL, allocation_interval: VERNIER_ALLOCATION_INTERVAL, hooks: [:memory_usage, :rails] do
           ruby_vm_stat, gc_stat, gc_stat_heap = with_diffed_ruby_stats do
             status, headers, rack_body = @app.call env
           end
@@ -37,6 +36,7 @@ module Dial
         return [status, headers, rack_body]
       end
 
+      write_vernier_result! vernier_result, profile_out_pathname
       query_logs = clear_query_logs!
 
       finish_time = Process.clock_gettime Process::CLOCK_MONOTONIC
@@ -67,6 +67,15 @@ module Dial
         gc_stat_diff(gc_stat_before, GC.stat),
         gc_stat_heap_diff(gc_stat_heap_before, GC.stat_heap)
       ]
+    end
+
+    def write_vernier_result! result, pathname
+      Thread.new do
+        Thread.current.name = "Dial::Middleware#write_vernier_result!"
+        Thread.current.report_on_exception = false
+
+        result.write out: pathname
+      end
     end
 
     def clear_query_logs!

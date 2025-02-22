@@ -19,7 +19,7 @@ module Dial
     end
 
     initializer "dial.clean_up_vernier_profile_out_files" do |app|
-      stale_files("#{profile_out_dir_pathname}/*.json").each do |profile_out_file|
+      stale_files("#{profile_out_dir_pathname}/*.json.gz").each do |profile_out_file|
         File.delete profile_out_file rescue nil
       end
     end

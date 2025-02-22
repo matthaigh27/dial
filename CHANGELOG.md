@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Use gzipped vernier output files by default
 - UI: Use inline color properties to prevent overriding by user styles
 
 ## [0.1.9] - 2025-01-27

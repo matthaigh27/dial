@@ -19,7 +19,7 @@ module Dial
     def call env
       start_time = Process.clock_gettime Process::CLOCK_MONOTONIC
 
-      profile_out_filename = "#{Util.uuid}_vernier.json"
+      profile_out_filename = "#{Util.uuid}_vernier.json.gz"
       profile_out_pathname = "#{profile_out_dir_pathname}/#{profile_out_filename}"
 
       status, headers, rack_body = nil

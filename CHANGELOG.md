@@ -1,5 +1,6 @@
 ## [Unreleased]
 
+- Decrease default vernier allocation interval from 100k to 200
 - Decrease default vernier interval from 500ms to 200ms
 
 ## [0.2.0] - 2025-02-22

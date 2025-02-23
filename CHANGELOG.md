@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Decrease default vernier interval from 500ms to 200ms
+
 ## [0.2.0] - 2025-02-22
 
 - Perf: Eagerly check content type to avoid profiling incompatible requests

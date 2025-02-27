@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails"
+require "active_record"
 require "prosopite"
 
 require_relative "middleware"
@@ -26,7 +27,7 @@ module Dial
 
     initializer "dial.set_up_prosopite" do |app|
       app.config.after_initialize do
-        if ::ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
+        if ::ActiveRecord::Base.configurations.configurations.any? { |config| config.adapter == "postgresql" }
           require "pg_query"
         end
 

@@ -33,6 +33,18 @@ bundle install
 mount Dial::Engine, at: "/" if Rails.env.development?
 ```
 
+4. (Optional) Configure the gem in an initializer:
+
+```ruby
+# config/initializers/dial.rb
+
+Dial.configure do |config|
+  config.vernier_interval = 100 # default: 200
+  config.vernier_allocation_interval = 10_000 # default: 20_000
+  config.prosopite_ignore_queries += [/pg_sleep/i] # default: [/schema_migrations/i]
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rake test` to run the

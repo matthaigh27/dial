@@ -7,3 +7,9 @@ gemspec
 gem "rake"
 
 gem "minitest"
+
+gem "debug"
+
+gem "sqlite3"
+
+gem "rails", ENV["RAILS_VERSION"]

@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Make default prosopite ignore queries case insensitive
+
 ## [0.2.2] - 2025-02-27
 
 - Increase default vernier allocation interval from 200 to 20k

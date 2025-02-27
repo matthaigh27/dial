@@ -18,7 +18,7 @@ module Dial
   VERNIER_ALLOCATION_INTERVAL = 20_000
   VERNIER_PROFILE_OUT_RELATIVE_DIRNAME = "tmp/dial/profiles"
 
-  PROSOPITE_IGNORE_QUERIES = [/schema_migrations/].freeze
+  PROSOPITE_IGNORE_QUERIES = [/schema_migrations/i].freeze
   PROSOPITE_LOG_RELATIVE_DIRNAME = "log/dial"
   PROSOPITE_LOG_FILENAME = "#{Util.uuid}_prosopite_#{PROGRAM_ID}.log".freeze
 end

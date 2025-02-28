@@ -86,7 +86,7 @@ module Dial
 
     def clear_query_logs!
       [].tap do |query_logs|
-        File.open("#{query_log_dir_pathname}/#{PROSOPITE_LOG_FILENAME}", "r+") do |file|
+        File.open "#{query_log_dir_pathname}/#{PROSOPITE_LOG_FILENAME}", "r+" do |file|
           entry = section = count = nil
           file.each_line do |line|
             entry, section, count = process_query_log_line line, entry, section, count

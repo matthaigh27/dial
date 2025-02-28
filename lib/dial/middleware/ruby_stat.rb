@@ -27,7 +27,7 @@ module Dial
     def stat_diff before, after, no_diff: []
       after.except(*no_diff).each_with_object({}) do |(key, value), diff|
         diff[key] = value - before[key]
-      end.merge after.slice *no_diff
+      end.merge after.slice(*no_diff)
     end
   end
 end

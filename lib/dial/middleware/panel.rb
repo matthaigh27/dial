@@ -171,7 +171,7 @@ module Dial
       end
 
       def formatted_rails_route_info env
-        rails_route_info = begin
+        begin
           ::Rails.application.routes.recognize_path env[::Rack::PATH_INFO], method: env[::Rack::REQUEST_METHOD]
         rescue ::ActionController::RoutingError
           {}

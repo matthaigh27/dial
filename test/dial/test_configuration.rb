@@ -60,12 +60,12 @@ module Dial
 
     def test_configuration_is_frozen_after_app_initialization
       app.initialize!
-      error = assert_raises(RuntimeError) do
+      error = assert_raises RuntimeError do
         Dial.configure do |config|
           config.vernier_interval = 50
         end
       end
-      assert_match /can\'t modify frozen Hash:.*vernier_interval/, error.message
+      assert_match (/can\'t modify frozen Hash:.*vernier_interval/), error.message
     end
 
     private
@@ -75,7 +75,8 @@ module Dial
       Dir.mkdir config_dir unless Dir.exist? config_dir
       initializers_dir = app.root.join "config/initializers"
       Dir.mkdir initializers_dir unless Dir.exist? initializers_dir
-      File.write (app.root.join "config/initializers/#{name}.rb"), content
+      intializer_file = app.root.join "config/initializers/#{name}.rb"
+      File.write intializer_file, content
     end
   end
 end

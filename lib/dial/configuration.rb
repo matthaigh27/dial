@@ -18,11 +18,11 @@ module Dial
       }
 
       @options.keys.each do |key|
-        define_singleton_method(key) do
+        define_singleton_method key do
           @options[key]
         end
 
-        define_singleton_method("#{key}=") do |value|
+        define_singleton_method "#{key}=" do |value|
           @options[key] = value
         end
       end

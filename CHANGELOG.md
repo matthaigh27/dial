@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.2.3] - 2025-02-28
+
 - Add configuration API
 - Make default prosopite ignore queries case insensitive
 

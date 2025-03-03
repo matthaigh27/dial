@@ -1,0 +1,132 @@
+.dial-toggle {
+  position: fixed;
+  z-index: calc(infinity);
+  inset: auto 4px 4px auto;
+  height: 140px;
+  width: 400px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  border: 1px solid oklch(87.1% 0.6% 286.286);
+  border-radius: 24px;
+  background-color: white;
+  transform-origin: bottom right;
+  transform: scale(calc(1/20), calc(1/7));
+  transition: transform 0.25s, border-radius 0.25s;
+  overflow: hidden;
+  font-size: 5rem;
+
+  &:hover {
+    transform: scale(1, 1);
+    border-radius: 4px;
+
+    .dial-panel {
+      opacity: 1;
+      /* 0.1 + 0.15 = 0.25s */
+      transition-duration: 0.1s;
+      transition-delay: 0.15s;
+    }
+  }
+}
+
+.dial-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+
+  font-size: 0.85rem;
+
+  opacity: 0;
+  transition: opacity;
+  transition-delay: 0s;
+  transition-duration: 0s;
+}
+
+
+.dial-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.dial-header-content {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.dial {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+
+  opacity: 0;
+  transition: opacity;
+  transition-delay: 0s;
+  transition-duration: 0s;
+}
+
+.dial-options {
+    margin-left: auto;
+    font-size: 1rem;
+    font-weight: bold;
+
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+.dial-preview {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.dial-details {
+  display: none;
+  overflow-y: auto;
+  max-height: 50vh;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  margin: 0.25rem 0 0 0;
+}
+
+.query-logs {
+  padding-left: 0.75rem;
+}
+
+.query-logs details {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+span {
+  text-align: left;
+  color: black;
+}
+
+a {
+  color: blue;
+}
+
+hr {
+  width: 100%;
+  color: black;
+}
+
+details {
+  margin: 0.5rem 0 0 0;
+  text-align: left;
+}
+
+summary {
+  margin: 0.25rem 0 0 0;
+  cursor: pointer;
+  color: black;
+}

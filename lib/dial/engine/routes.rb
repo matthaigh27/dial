@@ -20,5 +20,13 @@ Dial::Engine.routes.draw do
         ]
       end
     }
+
+    get "assets/dial.css", to: proc {
+      [200, {"Content-Type" => "text/css"}, [File.read(File.join(Dial::Engine.root, "lib/dial/assets/dial.css"))]]
+    }
+
+    get "assets/dial.js", to: proc {
+      [200, {"Content-Type" => "application/javascript"}, [File.read(File.join(Dial::Engine.root, "lib/dial/assets/dial.js"))]]
+    }
   end
 end

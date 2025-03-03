@@ -56,10 +56,13 @@ module Dial
         rack_body.close if rack_body.respond_to? :close
 
         str.sub! "</body>", <<~HTML
-          #{Panel.html env, nonce, profile_out_filename, query_logs, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing}
+            <script nonce="#{nonce || ""}" src="/assets/dial.js"></script>
+            <link rel="stylesheet" href="/assets/dial.css">
+            #{Panel.html(env, profile_out_filename, query_logs, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing)}
           </body>
         HTML
       end
+
 
       headers[CONTENT_LENGTH] = body.bytesize.to_s
 

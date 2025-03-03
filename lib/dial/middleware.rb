@@ -48,13 +48,18 @@ module Dial
       finish_time = Process.clock_gettime Process::CLOCK_MONOTONIC
       env[REQUEST_TIMING] = ((finish_time - start_time) * 1_000).round 2
 
+      csp_header = headers['Content-Security-Policy']
+      nonce = extract_nonce_from_csp(csp_header)
+
       body = String.new.tap do |str|
         rack_body.each { |chunk| str << chunk }
         rack_body.close if rack_body.respond_to? :close
-      end.sub "</body>", <<~HTML
-          #{Panel.html env, profile_out_filename, query_logs, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing}
-        </body>
-      HTML
+
+        str.sub! "</body>", <<~HTML
+          #{Panel.html env, nonce, profile_out_filename, query_logs, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing}
+          </body>
+        HTML
+      end
 
       headers[CONTENT_LENGTH] = body.bytesize.to_s
 
@@ -62,6 +67,13 @@ module Dial
     end
 
     private
+
+    def extract_nonce_from_csp(csp_header)
+      return nil unless csp_header
+
+      nonce_match = csp_header.match(/\'nonce-([^']+)\'/)
+      nonce_match ? nonce_match[1] : nil
+    end
 
     def with_diffed_ruby_stats
       ruby_vm_stat_before = RubyVM.stat

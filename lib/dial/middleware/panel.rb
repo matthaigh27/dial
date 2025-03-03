@@ -5,7 +5,7 @@ require "uri"
 module Dial
   class Panel
     class << self
-      def html env, profile_out_filename, query_logs, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing
+      def html env, nonce, profile_out_filename, query_logs, ruby_vm_stat, gc_stat, gc_stat_heap, server_timing
         <<~HTML
           <style>#{style}</style>
 
@@ -69,7 +69,7 @@ module Dial
             </div>
           </div>
 
-          <script>#{script}</script>
+          <script nonce="#{nonce || ""}">#{script}</script>
         HTML
       end
 
